@@ -123,7 +123,7 @@ action_table = {
     (71, 'id'): ('reduce', 31),    (71, 'semi'): ('reduce', 31),    (71, 'assign'): ('reduce', 31),    (71, 'rbrace'): ('reduce', 31),    (71, 'if'): ('reduce', 31),    (71, 'while'): ('reduce', 31),    (71, 'return'): ('reduce', 31),
 }
 
-### Goto 테이블
+### Goto 테이블 ('state', 'input symbol') : 'new state'
 goto_table = {
     (0, 'DECL'): 1,
     (1, 'CODE'): 3,    (1, 'DECL'): 1,
@@ -148,10 +148,27 @@ goto_table = {
     (69, 'VDECL'): 36,    (69, 'BLOCK'): 70,    (69, 'STMT'): 35,
 }
 
+# Parse tree 만들기
+# 1. Shift의 경우, Node를 만들어 stack에 push
+# 2. Reduce의 경우, LHS를 기준으로 하나의 Node를 만들고, RHS의 token 수 만큼 pop 하면서 Parent, Child 지정. 다 끝나면 Push
+class Node:
+    def __init__(self, token):
+        self.data = token
+        self.child = []
+        self.parent = None
+
+    def addChild(self, child):
+        self.child.append(child)
+
+    def printTree(self):
+        print(self.data + " ")
+        for node in self.child:
+            printTree(node)
 
 
 def parse(tokens):
     stack = [0]  # 초기 상태
+    treeStack = [] # Tree 구현에 필요한 Stack, 초기 상태
     tokens.append('$')  # 입력 끝을 나타내는 end marker
     cursor = 0
 
@@ -163,21 +180,33 @@ def parse(tokens):
             action, next_state = action_table[action_key]
             if action == 'shift':
                 stack.append(next_state)  # 새 상태를 스택에 푸시
+                node = Node(tokens[cursor])  # Shift의 경우, Token으로 Node를 만들어서 Push
+                treeStack.append(node)
                 cursor += 1  # 다음 토큰으로 이동
             elif action == 'reduce':
+                nodeStack = []
                 # reduce 액션 수행 (규칙의 길이만큼 스택에서 팝)
                 # production_rules는 규칙의 길이를 저장한 배열
                 production_rule_length = production_rules[next_state]
                 for _ in range(production_rule_length):
                     stack.pop()
+                    nodeStack.append(treeStack.pop())   # nodeStack에 뺀 만큼 push
                 # goto_table에서 다음 상태를 찾아 스택에 푸시
                 top_state = stack[-1]
                 nonterminal = production_lhs[next_state]  # 이 규칙의 LHS
+                parent = Node(nonterminal)    # 그 LHS로 Node를 만듦
                 goto_key = (top_state, nonterminal)
                 next_state = goto_table[goto_key]
                 stack.append(next_state)
+                for _ in range(production_rule_length):
+                    child = nodeStack.pop()
+                    child.parent = parent
+                    parent.addChild(child)
+                treeStack.append(parent)
             elif action == 'accept':
                 print("Parsing successful!")
+                global root
+                root = treeStack.pop()
                 return
             else:
                 print("Syntax error!")
@@ -186,5 +215,7 @@ def parse(tokens):
             print("Syntax error at state", current_state, "with token", current_token)
             return
 
+root = None
 input_string = "vtype id assign num semi"
 parse(input_string.split())
+root.printTree()
