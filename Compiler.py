@@ -1,151 +1,155 @@
 production_rules = [
     2,  # 0. CODE -> DECL CODE
     0,  # 1. CODE -> ''
-    3,  # 2. DECL -> vtype id VDECL
-    3,  # 3. DECL -> vtype id FDECL
-    1,  # 4. VDECL -> semi
-    3,  # 5. VDECL -> assign RHS semi
-    7,  # 6. FDECL -> lparen ARG rparen lbrace BLOCK RETURN rbrace
-    1,  # 7. RHS -> EXPR
-    1,  # 8. RHS -> literal
-    1,  # 9. RHS -> character
-    1,  # 10. RHS -> boolstr
-    1,  # 11. EXPR -> TERM
-    3,  # 12. EXPR -> EXPR addsub TERM
-    1,  # 13. TERM -> FACTOR
-    3,  # 14. TERM -> TERM multdiv FACTOR
-    3,  # 15. FACTOR -> lparen EXPR rparen
-    1,  # 16. FACTOR -> id
-    1,  # 17. FACTOR -> num
-    3,  # 18. ARG -> vtype id MOREARGS
-    0,  # 19. ARG -> ''
-    4,  # 20. MOREARGS -> comma vtype id MOREARGS
-    0,  # 21. MOREARGS -> ''
-    2,  # 22. BLOCK -> STMT BLOCK
-    0,  # 23. BLOCK -> ''
-    1,  # 24. STMT -> VDECL
-    3,  # 25. STMT -> id assign semi
-    8,  # 26. STMT -> if lparen COND rparen lbrace BLOCK rbrace ELSE
-    7,  # 27. STMT -> while lparen COND rparen lbrace BLOCK rbrace
-    3,  # 28. COND -> COND comp COND'
-    1,  # 29. COND -> COND'
-    1,  # 30. COND' -> boolstr
-    4,  # 31. ELSE -> else lbrace BLOCK rbrace
-    0,  # 32. ELSE -> ''
-    3   # 33. RETURN -> return RHS semi
+    2,  # 2. DECL -> VDECL semi
+    1,  # 3. DECL -> FDECL
+    2,  # 4. VDECL -> vtype id
+    2,  # 5. VDECL -> vtype ASSIGN
+    3,  # 6. ASSIGN -> id assign RHS
+    9,  # 7. FDECL -> vtype id lparen ARG rparen lbrace BLOCK RETURN rbrace
+    1,  # 8. RHS -> EXPR
+    1,  # 9. RHS -> literal
+    1,  # 10. RHS -> character
+    1,  # 11. RHS -> boolstr
+    1,  # 12. EXPR -> TERM
+    3,  # 13. EXPR -> EXPR addsub TERM
+    1,  # 14. TERM -> FACTOR
+    3,  # 15. TERM -> TERM multdiv FACTOR
+    3,  # 16. FACTOR -> lparen EXPR rparen
+    1,  # 17. FACTOR -> id
+    1,  # 18. FACTOR -> num
+    3,  # 19. ARG -> vtype id MOREARGS
+    0,  # 20. ARG -> ''
+    4,  # 21. MOREARGS -> comma vtype id MOREARGS
+    0,  # 22. MOREARGS -> ''
+    2,  # 23. BLOCK -> STMT BLOCK
+    0,  # 24. BLOCK -> ''
+    2,  # 25. STMT -> VDECL semi
+    2,  # 26. STMT -> ASSIGN semi
+    8,  # 27. STMT -> if lparen COND rparen lbrace BLOCK rbrace ELSE
+    7,  # 28. STMT -> while lparen COND rparen lbrace BLOCK rbrace
+    3,  # 29. COND -> COND comp COND'
+    1,  # 30. COND -> COND'
+    1,  # 31. COND' -> boolstr
+    4,  # 32. ELSE -> else lbrace BLOCK rbrace
+    0,  # 33. ELSE -> ''
+    3   # 34. RETURN -> return RHS semi
 ]
 
 production_lhs = [
     'CODE', 'CODE', 'DECL', 'DECL', 'VDECL',
-    'VDECL', 'FDECL', 'RHS', 'RHS', 'RHS',
-    'RHS', 'EXPR', 'EXPR', 'TERM', 'TERM', 
-    'FACTOR', 'FACTOR', 'FACTOR', 'ARG', 'ARG', 
-    'MOREARGS', 'MOREARGS', 'BLOCK', 'BLOCK', 'STMT',
-    'STMT', 'STMT', 'STMT', 'COND', 'COND',
-    'COND\'', 'ELSE', 'ELSE', 'RETURN'
+    'VDECL', 'ASSIGN', 'FDECL', 'RHS', 'RHS', 
+    'RHS', 'RHS', 'EXPR', 'EXPR', 'TERM',
+    'TERM', 'FACTOR', 'FACTOR', 'FACTOR', 'ARG',
+    'ARG', 'MOREARGS', 'MOREARGS', 'BLOCK', 'BLOCK',
+    'STMT', 'STMT', 'STMT', 'STMT', 'COND',
+    'COND', 'COND\'', 'ELSE', 'ELSE', 'RETURN'
 ]
 
 
 # Action 테이블 ('state', 'input symbol') : ('rule', 'new state')
 action_table = {
-    (0, 'vtype'): ('shift', 2),
-    (1, 'vtype'): ('shift', 2),    (1, '$'): ('reduce', 1),
-    (2, 'id'): ('shift', 4),
-    (3, '$'): ('accept', None),
-    (4, 'semi'): ('shift', 7),    (4, 'assign'): ('shift', 8),    (4, 'lparen'): ('shift', 9),
-    (5, 'vtype'): ('reduce', 2),    (5, '$'): ('reduce', 2),
-    (6, 'vtype'): ('reduce', 3),    (6, '$'): ('reduce', 3),
-    (7, 'vtype'): ('reduce', 4),    (7, 'id'): ('reduce', 4),    (7, 'semi'): ('reduce', 4),    (7, 'assign'): ('reduce', 4),    (7, 'rbrace'): ('reduce', 4),    (7, 'if'): ('reduce', 4),    (7, 'while'): ('reduce', 4),    (7, 'return'): ('reduce', 4),    (7, '$'): ('reduce', 4),
-    (8, 'id'): ('shift', 18),    (8, 'lparen'): ('shift', 17),    (8, 'literal'): ('shift', 12),    (8, 'character'): ('shift', 13),    (8, 'boolstr'): ('shift', 14),    (8, 'num'): ('shift', 19),
-    (9, 'vtype'): ('shift', 21),    (9, 'rparen'): ('reduce', 19),
-    (10, 'semi'): ('shift', 22),
-    (11, 'semi'): ('reduce', 7),   (11, 'addsub'): ('shift', 23),
-    (12, 'semi'): ('reduce', 8),    
-    (13, 'semi'): ('reduce', 9),    
-    (14, 'semi'): ('reduce', 10),
-    (15, 'semi'): ('reduce', 11),   (15, 'rparen'): ('reduce', 11),    (15, 'addsub'): ('reduce', 11),    (15, 'multdiv'): ('shift', 24),
-    (16, 'semi'): ('reduce', 13),   (16, 'rparen'): ('reduce', 13),    (16, 'addsub'): ('reduce', 13),    (16, 'multdiv'): ('reduce', 13),
-    (17, 'id'): ('shift', 18),    (17, 'lparen'): ('shift', 17),    (17, 'num'): ('shift', 19),
-    (18, 'semi'): ('reduce', 16),   (18, 'rparen'): ('reduce', 16),    (18, 'addsub'): ('reduce', 16),    (18, 'multdiv'): ('reduce', 16),
-    (19, 'semi'): ('reduce', 17),   (19, 'rparen'): ('reduce', 17),    (19, 'addsub'): ('reduce', 17),    (19, 'multdiv'): ('reduce', 17),
-    (20, 'rparen'): ('shift', 26),
-    (21, 'id'): ('shift', 27),
-    (22, 'vtype'): ('reduce', 5),   (22, 'id'): ('reduce', 5),    (22, 'semi'): ('reduce', 5),    (22, 'assign'): ('reduce', 5),    (22, 'rbrace'): ('reduce', 5),    (22, 'if'): ('reduce', 5),    (22, 'while'): ('reduce', 5),    (22, 'return'): ('reduce', 5),    (22, '$'): ('reduce', 5),
-    (23, 'id'): ('shift', 18),    (23, 'lparen'): ('shift', 17),    (23, 'num'): ('shift', 19),
-    (24, 'id'): ('shift', 18),    (24, 'lparen'): ('shift', 17),    (24, 'num'): ('shift', 19),
-    (25, 'rparen'): ('shift', 30),    (25, 'addsub'): ('shift', 23),
-    (26, 'lbrace'): ('shift', 31),
-    (27, 'rparen'): ('reduce', 21),    (27, 'comma'): ('shift', 33),
-    (28, 'semi'): ('reduce', 12),    (28, 'rparen'): ('reduce', 12),    (28, 'addsub'): ('reduce', 12),    (28, 'multdiv'): ('shift', 24),
-    (29, 'semi'): ('reduce', 14),    (29, 'rparen'): ('reduce', 14),    (29, 'addsub'): ('reduce', 14),    (29, 'multdiv'): ('reduce', 14),
-    (30, 'semi'): ('reduce', 15),    (30, 'rparen'): ('reduce', 15),    (30, 'addsub'): ('reduce', 15),    (30, 'multdiv'): ('reduce', 15),
-    (31, 'id'): ('shift', 37),    (31, 'semi'): ('shift', 7),    (31, 'assign'): ('shift', 8),    (31, 'rbrace'): ('reduce', 23),    (31, 'if'): ('shift', 38),    (31, 'while'): ('shift', 39),    (31, 'return'): ('reduce', 23),
-    (32, 'rparen'): ('reduce', 18),
-    (33, 'vtype'): ('shift', 40),
-    (34, 'return'): ('shift', 42),
-    (35, 'id'): ('shift', 37),    (35, 'semi'): ('shift', 7),    (35, 'assign'): ('shift', 8),    (35, 'rbrace'): ('reduce', 23),    (35, 'if'): ('shift', 38),    (35, 'while'): ('shift', 39),    (35, 'return'): ('reduce', 23),
-    (36, 'id'): ('reduce', 24),    (36, 'semi'): ('reduce', 24),    (36, 'assign'): ('reduce', 24),    (36, 'rbrace'): ('reduce', 24),    (36, 'if'): ('reduce', 24),    (36, 'while'): ('reduce', 24),    (36, 'return'): ('reduce', 24),
-    (37, 'assign'): ('shift', 44),
-    (38, 'lparen'): ('shift', 45),
-    (39, 'lparen'): ('shift', 46),
-    (40, 'id'): ('shift', 47),
-    (41, 'rbrace'): ('shift', 48),
-    (42, 'rbrace'): ('reduce', 22),
-    (42, 'id'): ('shift', 18),    (42, 'lparen'): ('shift', 17),    (42, 'literal'): ('shift', 12),    (42, 'character'): ('shift', 13),    (42, 'boolstr'): ('shift', 14),    (42, 'num'): ('shift', 19),    
-    (43, 'rbrace'): ('reduce', 22),    (43, 'return'): ('reduce', 22),
-    (44, 'semi'): ('shift', 50),
-    (45, 'boolstr'): ('shift', 53),
-    (46, 'boolstr'): ('shift', 53),
-    (47, 'rparen'): ('reduce', 21),    (47, 'comma'): ('shift', 33),    
-    (48, 'vtype'): ('reduce', 6),    (48, '$'): ('reduce', 6),
-    (49, 'semi'): ('shift', 56),
-    (50, 'id'): ('reduce', 25),    (50, 'semi'): ('reduce', 25), (50, 'assign'): ('reduce', 25), (50, 'rbrace'): ('reduce', 25), (50, 'if'): ('reduce', 25), (50, 'while'): ('reduce', 25), (50, 'return'): ('reduce', 25),
-    (51, 'rparen'): ('shift', 57),    (51, 'comp'): ('shift', 58),
-    (52, 'rparen'): ('reduce', 29),    (52, 'comp'): ('reduce', 29),
-    (53, 'rparen'): ('reduce', 30),    (53, 'comp'): ('reduce', 30),
-    (54, 'rparen'): ('shift', 59),    (54, 'comp'): ('shift', 58),
-    (55, 'rparen'): ('reduce', 20),
-    (56, 'rbrace'): ('reduce', 33),
-    (57, 'lbrace'): ('shift', 60),
-    (58, 'boolstr'): ('shift', 53),
-    (59, 'lbrace'): ('shift', 62),
-    (60, 'id'): ('shift', 37),    (60, 'semi'): ('shift', 7),    (60, 'assign'): ('shift', 8),    (60, 'rbrace'): ('reduce', 23),    (60, 'if'): ('shift', 38),    (60, 'while'): ('shift', 39),    (60, 'return'): ('reduce', 23),
-    (61, 'rparen'): ('reduce', 28),
-    (62, 'id'): ('shift', 37),    (62, 'semi'): ('shift', 7),    (62, 'assign'): ('shift', 8),    (62, 'rbrace'): ('reduce', 23),    (62, 'if'): ('shift', 38),    (62, 'while'): ('shift', 39),    (62, 'return'): ('reduce', 23),
-    (63, 'rbrace'): ('shift', 65),
-    (64, 'rbrace'): ('shift', 66),
-    (65, 'id'): ('reduce', 32),    (65, 'semi'): ('reduce', 32),    (65, 'assign'): ('reduce', 32),    (65, 'rbrace'): ('reduce', 32),    (65, 'if'): ('reduce', 32),    (65, 'while'): ('reduce', 32),    (65, 'else'): ('shift', 68),    (65, 'return'): ('reduce', 32),
-    (66, 'id'): ('reduce', 27),    (66, 'semi'): ('reduce', 27),    (66, 'assign'): ('reduce', 27),    (66, 'rbrace'): ('reduce', 27),    (66, 'if'): ('reduce', 27),    (66, 'while'): ('reduce', 27),    (66, 'return'): ('reduce', 27),
-    (67, 'id'): ('reduce', 26),    (67, 'semi'): ('reduce', 26),    (67, 'assign'): ('reduce', 26),    (67, 'rbrace'): ('reduce', 26),    (67, 'if'): ('reduce', 26),    (67, 'while'): ('reduce', 26),    (67, 'return'): ('reduce', 26),
-    (68, 'lbrace'): ('shift', 69),
-    (69, 'id'): ('shift', 37),    (69, 'semi'): ('shift', 7),    (69, 'assign'): ('shift', 8),    (69, 'rbrace'): ('reduce', 23),    (69, 'if'): ('shift', 38),    (69, 'while'): ('shift', 39),    (69, 'return'): ('reduce', 23),
-    (70, 'rbrace'): ('shift', 71),
-    (71, 'id'): ('reduce', 31),    (71, 'semi'): ('reduce', 31),    (71, 'assign'): ('reduce', 31),    (71, 'rbrace'): ('reduce', 31),    (71, 'if'): ('reduce', 31),    (71, 'while'): ('reduce', 31),    (71, 'return'): ('reduce', 31),
+    (0, 'vtype'): ('shift', 4),
+    (1, 'vtype'): ('shift', 4),    (1, '$'): ('reduce', 1),
+    (2, 'semi'): ('shift', 6),
+    (3, 'vtype'): ('reduce', 3),    (3, '$'): ('reduce', 3),
+    (4, 'id'): ('shift', 7),    (4, 'assign'): ('shift', 8),    (4, 'lparen'): ('shift', 9),
+    (5, '$'): ('accept', None),
+    (6, 'vtype'): ('reduce', 2),    (6, '$'): ('reduce', 2),
+    (7, 'semi'): ('reduce', 4),    (7, 'assign'): ('shift', 10),    (7, 'lparen'): ('shift', 9),
+    (8, 'semi'): ('reduce', 5),
+    (9, 'vtype'): ('shift', 12),    (9, 'rparen'): ('reduce', 20),
+    (10, 'id'): ('shift', 21),    (10, 'lparen'): ('shift', 20),    (10, 'literal'): ('shift', 15),    (10, 'character'): ('shift', 16),    (10, 'boolstr'): ('shift', 17),    (10, 'num'): ('shift', 22),
+    (11, 'rparen'): ('shift', 23),
+    (12, 'id'): ('shift', 24),    
+    (13, 'semi'): ('reduce', 6), 
+    (14, 'semi'): ('reduce', 8),    (14, 'addsub'): ('shift', 25),
+    (15, 'semi'): ('reduce', 9),
+    (16, 'semi'): ('reduce', 10),
+    (17, 'semi'): ('reduce', 11),
+    (18, 'semi'): ('reduce', 12),   (18, 'rparen'): ('reduce', 12),    (18, 'addsub'): ('reduce', 12),    (18, 'multdiv'): ('reduce', 26),
+    (19, 'semi'): ('reduce', 14),   (19, 'rparen'): ('reduce', 14),    (19, 'addsub'): ('reduce', 14),    (19, 'multdiv'): ('reduce', 14),
+    (20, 'id'): ('shift', 21),    (20, 'lparen'): ('shift', 20),    (20, 'num'): ('shift', 22),
+    (21, 'semi'): ('reduce', 17),   (21, 'rparen'): ('reduce', 17),    (21, 'addsub'): ('reduce', 17),    (21, 'multdiv'): ('reduce', 17),
+    (22, 'semi'): ('reduce', 18),   (22, 'rparen'): ('reduce', 18),    (22, 'addsub'): ('reduce', 18),    (22, 'multdiv'): ('reduce', 18),
+    (23, 'lbrace'): ('shift', 28),
+    (24, 'rparen'): ('reduce', 22),   (24, 'comma'): ('shift', 30),
+    (25, 'id'): ('shift', 21),    (25, 'lparen'): ('shift', 20),   (25, 'num'): ('shift', 22),
+    (26, 'id'): ('shift', 21),    (26, 'lparen'): ('shift', 20),   (26, 'num'): ('shift', 22),
+    (27, 'rparen'): ('shift', 33),    (27, 'addsub'): ('shift', 25),
+    (28, 'vtype'): ('shift', 40),    (28, 'id'): ('shift', 41),    (28, 'rbrace'): ('reduce', 24),    (28, 'if'): ('shift', 38),    (28, 'while'): ('shift', 39),    (28, 'return'): ('reduce', 24),
+    (29, 'rparen'): ('reduce', 19),
+    (30, 'vtype'): ('shift', 42),
+    (31, 'semi'): ('reduce', 13),    (31, 'rparen'): ('reduce', 13),    (31, 'addsub'): ('reduce', 13),    (31, 'multdiv'): ('shift', 26),
+    (32, 'semi'): ('reduce', 15),    (32, 'rparen'): ('reduce', 15),    (32, 'addsub'): ('reduce', 15),    (32, 'multdiv'): ('reduce', 15),
+    (33, 'semi'): ('reduce', 16),    (33, 'rparen'): ('reduce', 16),    (33, 'addsub'): ('reduce', 16),    (33, 'multdiv'): ('reduce', 16),
+    (34, 'return'): ('shift', 44),
+    (35, 'vtype'): ('shift', 40),    (35, 'id'): ('shift', 41),    (35, 'rbrace'): ('reduce', 24),    (35, 'if'): ('shift', 38),    (35, 'while'): ('shift', 39),    (35, 'return'): ('reduce', 24),
+    (36, 'semi'): ('shift', 46),
+    (37, 'semi'): ('shift', 47),
+    (38, 'lparen'): ('shift', 48),
+    (39, 'lparen'): ('shift', 49),
+    (40, 'id'): ('shift', 50),
+    (41, 'assign'): ('shift', 10),
+    (42, 'id'): ('shift', 51),
+    (43, 'rbrace'): ('shift', 52),
+    (44, 'id'): ('shift', 21),    (44, 'lparen'): ('shift', 20),    (44, 'literal'): ('shift', 15),    (44, 'character'): ('shift', 16),    (44, 'boolstr'): ('shift', 17),    (44, 'num'): ('shift', 22),    
+    (45, 'rbrace'): ('reduce', 23),    (45, 'return'): ('reduce', 23),
+    (46, 'vtype'): ('reduce', 25),    (46, 'id'): ('reduce', 25),    (46, 'rbrace'): ('reduce', 25), (46, 'if'): ('reduce', 25), (46, 'while'): ('reduce', 25), (46, 'return'): ('reduce', 25),
+    (47, 'vtype'): ('reduce', 26),    (47, 'id'): ('reduce', 26),    (47, 'rbrace'): ('reduce', 26), (47, 'if'): ('reduce', 26), (47, 'while'): ('reduce', 26), (47, 'return'): ('reduce', 26),
+    (48, 'boolstr'): ('shift', 56),
+    (49, 'boolstr'): ('shift', 56),
+    (50, 'semi'): ('reduce', 4),    (50, 'assign'): ('shift', 10),
+    (51, 'rparen'): ('reduce', 22),    (51, 'comma'): ('shift', 30),    
+    (52, 'vtype'): ('reduce', 7),    (52, '$'): ('reduce', 7),
+    (53, 'semi'): ('shift', 59),
+    (54, 'rparen'): ('shift', 60),    (54, 'comp'): ('shift', 61),
+    (55, 'rparen'): ('reduce', 30),    (55, 'comp'): ('reduce', 30),
+    (56, 'rparen'): ('reduce', 31),    (56, 'comp'): ('reduce', 31),
+    (57, 'rparen'): ('shift', 62),    (57, 'comp'): ('shift', 61),
+    (58, 'rparen'): ('reduce', 21),
+    (59, 'rbrace'): ('reduce', 34),
+    (60, 'lbrace'): ('shift', 63),
+    (61, 'boolstr'): ('shift', 56),
+    (62, 'lbrace'): ('shift', 65),
+    (63, 'vtype'): ('shift', 40),    (63, 'id'): ('shift', 41),    (63, 'rbrace'): ('reduce', 24),    (63, 'if'): ('shift', 38),    (63, 'while'): ('shift', 39),    (63, 'return'): ('reduce', 24),
+    (64, 'rparen'): ('reduce', 29),    (64, 'comp'): ('reduce', 29),
+    (65, 'semi'): ('shift', 40),    (65, 'id'): ('shift', 41),    (65, 'rbrace'): ('reduce', 24),    (65, 'if'): ('shift', 38),    (65, 'while'): ('shift', 39),    (65, 'return'): ('reduce', 24),
+    (66, 'rbrace'): ('shift', 68),
+    (67, 'rbrace'): ('shift', 69),
+    (68, 'vtype'): ('reduce', 33),    (68, 'id'): ('reduce', 33),    (68, 'rbrace'): ('reduce', 33),    (68, 'if'): ('reduce', 33),    (68, 'while'): ('reduce', 33),    (68, 'else'): ('shift', 71),    (68, 'return'): ('reduce', 33),
+    (69, 'vtype'): ('reduce', 28),    (69, 'semi'): ('reduce', 28),    (69, 'rbrace'): ('reduce', 28),    (69, 'if'): ('reduce', 28),    (69, 'while'): ('reduce', 28),    (69, 'return'): ('reduce', 28),
+    (70, 'id'): ('reduce', 27),    (70, 'semi'): ('reduce', 27),    (70, 'rbrace'): ('reduce', 27),    (70, 'if'): ('reduce', 27),    (70, 'while'): ('reduce', 27),    (70, 'return'): ('reduce', 27),
+    (71, 'lbrace'): ('shift', 72),
+    (72, 'vtype'): ('shift', 40),    (72, 'id'): ('shift', 41),    (72, 'rbrace'): ('reduce', 24),    (72, 'if'): ('shift', 38),    (72, 'while'): ('shift', 39),    (72, 'return'): ('reduce', 24),
+    (73, 'rbrace'): ('shift', 74),
+    (74, 'vtype'): ('reduce', 32),    (74, 'id'): ('reduce', 32),    (74, 'rbrace'): ('reduce', 32),    (74, 'if'): ('reduce', 32),    (74, 'while'): ('reduce', 32),    (74, 'return'): ('reduce', 32),
 }
 
 ### Goto 테이블
 goto_table = {
-    (0, 'DECL'): 1,
-    (1, 'CODE'): 3,    (1, 'DECL'): 1,
-    (4, 'VDECL'): 5,    (4, 'FDECL'): 6,
-    (8, 'RHS'): 10,    (8, 'EXPR'): 11,    (8, 'TERM'): 15,    (8, 'FACTOR'): 16,
-    (9, 'ARG'): 20,
-    (17, 'EXPR'): 25,    (17, 'TERM'): 15,    (17, 'FACTOR'): 16,
-    (23, 'TERM'): 28,    (23, 'FACTOR'): 16,    
-    (24, 'FACTOR'): 29,    
-    (27, 'MOREARGS'): 32,
-    (31, 'VDECL'): 36,    (31, 'BLOCK'): 34,    (31, 'STMT'): 35,
-    (34, 'RETURN'): 41,
-    (35, 'VDECL'): 36,    (35, 'BLOCK'): 43,    (35, 'STMT'): 35,
-    (42, 'RHS'): 49,    (42, 'EXPR'): 11,    (42, 'TERM'): 15,    (42, 'FACTOR'): 16,
-    (45, 'COND'): 51,    (45, 'COND\''): 52,
-    (46, 'COND'): 54,    (45, 'COND\''): 52,
-    (47, 'MOREARGS'): 55,
-    (58, 'COND\''): 61,
-    (60, 'VDECL'): 36,    (60, 'BLOCK'): 63,    (60, 'STMT'): 35,
-    (62, 'VDECL'): 36,    (62, 'BLOCK'): 64,    (62, 'STMT'): 35,
-    (65, 'ELSE'): 67,
-    (69, 'VDECL'): 36,    (69, 'BLOCK'): 70,    (69, 'STMT'): 35,
+    (0, 'DECL'): 1,    (0, 'VDECL'): 2,    (0, 'FDECL'): 3,
+    (1, 'CODE'): 5,    (1, 'DECL'): 1,    (1, 'VDECL'): 2,     (1, 'FDECL'): 3,
+    (4, 'ASSIGN'): 8,
+    (9, 'ARG'): 11,
+    (10, 'RHS'): 13,    (10, 'EXPR'): 14,    (10, 'TERM'): 18,    (10, 'FACTOR'): 19,
+    (20, 'EXPR'): 27,    (20, 'TERM'): 18,    (20, 'FACTOR'): 19,
+    (24, 'MOREARGS'): 29,
+    (25, 'TERM'): 31,    (25, 'FACTOR'): 19,
+    (26, 'FACTOR'): 32,
+    (28, 'VDECL'): 36,    (28, 'ASSIGN'): 37,    (28, 'BLOCK'): 34,    (28, 'STMT'): 35,
+    (34, 'RETURN'): 43,    
+    (35, 'VDECL'): 36,    (35, 'ASSIGN'): 37,    (35, 'BLOCK'): 45,    (35, 'STMT'): 35,
+    (40, 'ASSIGN'): 8,
+    (44, 'RHS'): 53,    (44, 'EXPR'): 14,    (44, 'TERM'): 18,    (44, 'FACTOR'): 19,
+    (48, 'COND'): 54,    (48, 'COND\''): 55,
+    (49, 'COND'): 57,    (49, 'COND\''): 55,
+    (51, 'MOREARGS'): 58,
+    (61, 'COND\''): 64,
+    (63, 'VDECL'): 36,    (63, 'BLOCK'): 37,    (63, 'BLOCK'): 66,    (63, 'STMT'): 35,
+    (65, 'VDECL'): 36,    (65, 'BLOCK'): 37,    (65, 'BLOCK'): 67,    (65, 'STMT'): 35,
+    (68, 'ELSE'): 70,
+    (72, 'VDECL'): 36,    (72, 'BLOCK'): 37,    (72, 'BLOCK'): 73,    (72, 'STMT'): 35,
 }
 
 
@@ -172,7 +176,6 @@ def parse(tokens):
         current_state = stack[-1]
         current_token = tokens[cursor]
         action_key = (current_state, current_token)
-        
         if action_key in action_table:
             action, next_state = action_table[action_key]
             if action == 'shift':
@@ -183,7 +186,6 @@ def parse(tokens):
             elif action == 'reduce':
                 production_rule_length = production_rules[next_state]
                 children = []
-
                 for _ in range(production_rule_length):
                     stack.pop()
                     children.append(tree_stack.pop())
@@ -205,7 +207,7 @@ def parse(tokens):
                     next_state = goto_table[goto_key]
                     stack.append(next_state)
                 else:
-                    print("Syntax error: Missing goto entry")
+                    print(f"Syntax error: Missing goto entry {goto_key}")
                     return
 
             elif action == 'accept':
@@ -223,5 +225,5 @@ def parse(tokens):
             print("Syntax error at state", current_state, "with token", current_token)
             return
 
-input_string = "vtype id semi"
+input_string = "vtype id lparen rparen lbrace return id semi rbrace"
 parse(input_string.split())
