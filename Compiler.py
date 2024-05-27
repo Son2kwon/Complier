@@ -165,7 +165,7 @@ class Node:
 def parse(tokens):
     stack = [0]  # 초기 상태
     tree_stack = []  # 트리 노드를 저장할 스택
-    tokens.append('$')  # 입력 끝을 나타내는 종결자
+    tokens.append('$')  # 입력 끝을 나타내는 엔드마커
     cursor = 0
 
     while True:
@@ -188,7 +188,7 @@ def parse(tokens):
                     stack.pop()
                     children.append(tree_stack.pop())
 
-                # 생산규칙의 왼쪽 부분에 대한 노드 생성
+                # 생성 규칙의 LHS에 대한 노드 생성
                 lhs = production_lhs[next_state]
                 node = Node(lhs)
 
@@ -209,14 +209,10 @@ def parse(tokens):
                     return
 
             elif action == 'accept':
-                print("Parsing successful!")
-                # 트리의 루트 노드는 tree_stack에 남은 유일한 노드
-                if len(tree_stack) == 1:
-                    root = tree_stack.pop()
-                else:
-                    root = Node('CODE')  # 혹시 모르니 'CODE' 노드 생성
-                    for node in tree_stack:
+                root = Node(production_lhs[0])
+                for node in tree_stack:
                         root.add_child(node)
+                print("Parsing successful!")
                 root.print_tree()
                 return
 
@@ -227,5 +223,5 @@ def parse(tokens):
             print("Syntax error at state", current_state, "with token", current_token)
             return
 
-input_string = "vtype id semi vtype id lparen rparen lbrace return num semi rbrace"
+input_string = "vtype id semi"
 parse(input_string.split())
