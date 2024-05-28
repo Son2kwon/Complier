@@ -1,1 +1,3 @@
-vtype id lparen rparen lbrace return id semi rbrace
+vtype id lparen vtype id comma vtype id rparen lbrace vtype id semi vtype id assign id semi id assign num semi return id addsub id semi rbrace
+vtype id semi
+vtype id assign num semi
