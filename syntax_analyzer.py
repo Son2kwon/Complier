@@ -1,7 +1,7 @@
 import sys
 from graphviz import Digraph
 
-
+# 각 생성 규칙의 RHS의 길이를 담고 있는 리스트
 production_rules = [
     2,  # 0. CODE -> DECL CODE
     0,  # 1. CODE -> ''
@@ -41,6 +41,7 @@ production_rules = [
     3   # 35. RETURN -> return RHS semi
 ]
 
+# 각 생성 규칙의 LHS를 담고 있는 리스트
 production_lhs = [
     'CODE', 'CODE', 'DECL', 'DECL', 'VDECL',
     'VDECL', 'ASSIGN', 'FDECL', 'RHS', 'RHS', 
@@ -53,7 +54,7 @@ production_lhs = [
 ]
 
 
-# Action 테이블 ('state', 'input symbol') : ('rule', 'new state')
+# Action 테이블 ('state', 'input symbol') : ('rule', new state)
 action_table = {
     (0, 'vtype'): ('shift', 4),
     (1, 'vtype'): ('shift', 4),    (1, '$'): ('reduce', 1),
@@ -133,7 +134,7 @@ action_table = {
     (74, 'vtype'): ('reduce', 33),    (74, 'id'): ('reduce', 33),    (74, 'rbrace'): ('reduce', 33),    (74, 'if'): ('reduce', 33),    (74, 'while'): ('reduce', 33),    (74, 'return'): ('reduce', 33),
 }
 
-### Goto 테이블
+# Goto 테이블 ('state', 'input symbol') : new state
 goto_table = {
     (0, 'DECL'): 1,    (0, 'VDECL'): 2,    (0, 'FDECL'): 3,
     (1, 'CODE'): 5,    (1, 'DECL'): 1,    (1, 'VDECL'): 2,     (1, 'FDECL'): 3,
@@ -216,7 +217,7 @@ def parse(tokens):
             action, next_state = action_table[action_key]
             # shift일 경우
             # - 현재 입력 토큰을 기반으로 새로운 노드를 생성, 트리 스택(tree_stack)에 추가
-            # - 파싱 스택(stack)에 새 상태(next_state)가 추가
+            # - 파싱 스택에 새 상태 push
             # - 입력 토큰 인덱스(cursor)를 1 증가시켜 다음 토큰으로 이동
             if action == 'shift':
                 stack.append(next_state)
@@ -224,10 +225,11 @@ def parse(tokens):
                 tree_stack.append(new_node)
                 cursor += 1
             # reduce일 경우
-            # production_rule_length에 따라 트리 스택에서 노드를 pop, 자식 노드로 설정
-            # 해당 생성 규칙의 LHS에 해당하는 새로운 노드를 생성, 위에서 꺼낸 자식 노드들을 이 노드의 자식 노드로 연결
-            # 만약 규칙 길이가 0인 경우(입실론 ε), 'ε' 노드를 추가로 생성하고 자식 노드로 추가
-            # 최종적으로 이 노드를 트리 스택에 다시 추가하고, goto_table을 사용하여 새로운 상태로 스택을 업데이트 
+            # - 해당 생성 규칙의 RHS의 길이를 의미하는 production_rule_length 만큼 스택에서 상태를 pop
+            # - 각 pop된 상태에 해당하는 노드들을 트리 스택에서 pop하여 새로운 노드의 자식으로 설정
+            # - 해당 생성 규칙의 LHS에 해당하는 새로운 노드를 생성하고, 위에서 꺼낸 자식 노드들을 이 노드의 자식 노드로 연결
+            # - 만약 규칙 길이가 0인 경우(입실론 ε), 'ε' 노드를 추가로 생성하고 자식 노드로 추가
+            # - 최종적으로 이 노드를 트리 스택에 다시 추가하고, goto_table을 사용하여 새로운 상태로 스택을 업데이트 
             elif action == 'reduce':
                 production_rule_length = production_rules[next_state]
                 children = []
