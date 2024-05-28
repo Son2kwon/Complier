@@ -1,5 +1,5 @@
 import sys
-
+import pdb
 
 production_rules = [
     2,  # 0. CODE -> DECL CODE
@@ -165,6 +165,7 @@ class Node:
         self.children.append(child)
 
     def print_tree(self, level=0):
+        #pdb.set_trace()
         print('  ' * level + self.symbol)
         for child in self.children:
             child.print_tree(level + 1)
@@ -183,11 +184,13 @@ def parse(tokens):
         if action_key in action_table:
             action, next_state = action_table[action_key]
             if action == 'shift':
+                #pdb.set_trace()
                 stack.append(next_state)
                 tree_stack.append(Node(current_token))
                 cursor += 1
 
             elif action == 'reduce':
+                #pdb.set_trace()
                 production_rule_length = production_rules[next_state]
                 children = []
                 for _ in range(production_rule_length):

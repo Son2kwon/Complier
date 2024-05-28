@@ -1,2 +1,2 @@
-run: Compiler.py
-	python Compiler.py input.txt
+run: syntax_analyzer.py
+	python syntax_analyzer.py input.txt
