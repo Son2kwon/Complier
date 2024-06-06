@@ -1,5 +1,6 @@
 import sys
 from graphviz import Digraph
+import pdb
 
 # 각 생성 규칙의 RHS의 길이를 담고 있는 리스트
 production_rules = [

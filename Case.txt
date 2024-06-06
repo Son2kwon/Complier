@@ -1,0 +1,9 @@
+통과한 Case들
+1. 단순 변수 선언
+vtype id semi vtype id semi vtype id semi
+2. 변수 선언과 할당
+vtype id assign num semi vtype id assign literal semi vtype id assign literal semi vtype id assign boolstr semi
+3. 함수 선언
+vtype id lparen rparen lbrace return id semi rbrace vtype id lparen rparen lbrace return literal semi rbrace
+4. 매개변수가 있는 함수의 선언
+vtype id lparen vtype id comma vtype id rparen lbrace return id addsub id semi rbrace
