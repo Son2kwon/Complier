@@ -1,6 +1,5 @@
 import sys
 from graphviz import Digraph
-import pdb
 
 # 각 생성 규칙의 RHS의 길이를 담고 있는 리스트
 production_rules = [
@@ -155,10 +154,10 @@ goto_table = {
     (49, 'COND'): 57,    (49, 'COND\''): 55,
     (51, 'MOREARGS'): 58,
     (61, 'COND\''): 64,
-    (63, 'VDECL'): 39,    (63, 'BLOCK'): 40,    (63, 'BLOCK'): 66,    (63, 'STMT'): 35,    (63, 'STMT\''): 36,
-    (65, 'VDECL'): 39,    (65, 'BLOCK'): 40,    (65, 'BLOCK'): 67,    (65, 'STMT'): 35,    (65, 'STMT\''): 36,
+    (63, 'VDECL'): 39,    (63, 'ASSIGN'): 40,    (63, 'BLOCK'): 66,    (63, 'STMT'): 35,    (63, 'STMT\''): 36,
+    (65, 'VDECL'): 39,    (65, 'ASSIGN'): 40,    (65, 'BLOCK'): 67,    (65, 'STMT'): 35,    (65, 'STMT\''): 36,
     (68, 'ELSE'): 70,
-    (72, 'VDECL'): 39,    (72, 'BLOCK'): 40,    (72, 'BLOCK'): 73,    (72, 'STMT'): 35,    (72, 'STMT\''): 36,
+    (72, 'VDECL'): 39,    (72, 'ASSIGN'): 40,    (72, 'BLOCK'): 73,    (72, 'STMT'): 35,    (72, 'STMT\''): 36,
 }
 
 
