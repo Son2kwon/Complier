@@ -7,3 +7,7 @@ vtype id assign num semi vtype id assign literal semi vtype id assign literal se
 vtype id lparen rparen lbrace return id semi rbrace vtype id lparen rparen lbrace return literal semi rbrace
 4. 매개변수가 있는 함수의 선언
 vtype id lparen vtype id comma vtype id rparen lbrace return id addsub id semi rbrace
+5. 안에 Block이 있는 함수의 선언
+vtype id lparen vtype id comma vtype id rparen lbrace if lparen boolstr comp boolstr rparen lbrace id assign id semi rbrace else lbrace id assign num semi rbrace return id semi rbrace
+6. 수정 후 muldiv가 있는 함수의 선언
+vtype id assign num multdiv num semi

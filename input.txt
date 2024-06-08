@@ -1,1 +1,6 @@
+vtype id semi vtype id semi vtype id semi
+vtype id assign num semi vtype id assign literal semi vtype id assign literal semi vtype id assign boolstr semi
+vtype id lparen rparen lbrace return id semi rbrace vtype id lparen rparen lbrace return literal semi rbrace
+vtype id lparen vtype id comma vtype id rparen lbrace return id addsub id semi rbrace
 vtype id lparen vtype id comma vtype id rparen lbrace if lparen boolstr comp boolstr rparen lbrace id assign id semi rbrace else lbrace id assign num semi rbrace return id semi rbrace
+vtype id assign num multdiv num semi
