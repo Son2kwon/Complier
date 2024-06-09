@@ -54,7 +54,7 @@ production_lhs = [
 ]
 
 
-# Action 테이블 ('state', 'input symbol') : ('rule', new state)
+# Action 테이블 (state, 'input symbol') : ('rule', new state)
 action_table = {
     (0, 'vtype'): ('shift', 4),
     (1, 'vtype'): ('shift', 4),    (1, '$'): ('reduce', 1),
@@ -83,7 +83,6 @@ action_table = {
     (24, 'rparen'): ('reduce', 22),   (24, 'comma'): ('shift', 30),
     (25, 'id'): ('shift', 21),    (25, 'lparen'): ('shift', 20),   (25, 'num'): ('shift', 22),
     (26, 'id'): ('shift', 21),    (26, 'lparen'): ('shift', 20),   (26, 'num'): ('shift', 22),
-    
     (27, 'rparen'): ('shift', 33),    (27, 'addsub'): ('shift', 25),
     (28, 'vtype'): ('shift', 41),    (28, 'id'): ('shift', 42),    (28, 'rbrace'): ('reduce', 24),    (28, 'if'): ('shift', 37),    (28, 'while'): ('shift', 38),    (28, 'return'): ('reduce', 24),
     (29, 'rparen'): ('reduce', 19),
@@ -134,7 +133,7 @@ action_table = {
     (74, 'vtype'): ('reduce', 33),    (74, 'id'): ('reduce', 33),    (74, 'rbrace'): ('reduce', 33),    (74, 'if'): ('reduce', 33),    (74, 'while'): ('reduce', 33),    (74, 'return'): ('reduce', 33),
 }
 
-# Goto 테이블 ('state', 'input symbol') : new state
+# Goto 테이블 (state, 'nonterminal symbol') : new state
 goto_table = {
     (0, 'DECL'): 1,    (0, 'VDECL'): 2,    (0, 'FDECL'): 3,
     (1, 'CODE'): 5,    (1, 'DECL'): 1,    (1, 'VDECL'): 2,     (1, 'FDECL'): 3,
